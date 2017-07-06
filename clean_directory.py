@@ -37,6 +37,7 @@ def main(directory):
     dirs = tree[1]
     for f in files:
         ext = f.split('.')[-1]
+        ext = ext.lower()
         try:
             file_type = extension_map[ext]
             pr_info('Moving File %s to %s' % (f, file_type))
