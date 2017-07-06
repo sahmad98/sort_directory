@@ -53,4 +53,4 @@ if __name__ == '__main__':
     parser.add_option('-d', '--directory', dest = 'directory', help='Path to directory to sort', default='.')
     (option, args) = parser.parse_args()
     directory = option.directory  
-    main(directory)  
+    main(directory)
