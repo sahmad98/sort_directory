@@ -27,7 +27,7 @@ def pr_info(text):
 def main(directory):
     extension_map = {}
     print 'Sorting Directory: %s' % (directory)
-    config.read('extension.cfg')
+    config.read(os.environ['CLEAN_CONFIG_DIR'] + 'extension.cfg')
     for section in config.sections():
         for extension in config.options(section):
             extension_map[extension] = section
@@ -41,12 +41,13 @@ def main(directory):
         try:
             file_type = extension_map[ext]
             pr_info('Moving File %s to %s' % (f, file_type))
-            if file_type in dirs:
+            try:
+	        os.stat('%s/%s' % (directory, file_type))
                 shutil.move('%s/%s' % (directory, f), '%s/%s/%s'%(directory, file_type, f))
-            else:
+            except OSError:
                 os.mkdir('%s/%s' % (directory, file_type))
                 shutil.move('%s/%s' % (directory, f), '%s/%s/%s'%(directory, file_type, f))
-        except KeyError as e:
+        except KeyError:
             pr_waring('Unknown File extension %s' % (ext))
 
 if __name__ == '__main__':
